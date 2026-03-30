@@ -1,0 +1,100 @@
+@PremierLeague_Api_HostAddress = https://localhost:44363
+@PremierLeague_Api_Htpps = https://localhost:7024
+@PermierLeague_Api_Docker_Redis = http://localhost:6379
+@PermierLeague_Api_Docker = http://localhost:32776
+
+GET {{PremierLeague_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+GET {{PermierLeague_Api_Docker}}/weatherforecast/
+Accept: application/json
+
+###
+GET {{PremierLeague_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/auth/signin-google
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/auth/signin-google
+
+###
+
+
+
+### BEGIN HOME CONTROLLER
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-club-news
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-matches
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-videos
+Content-Type: application/json
+
+[
+  "2"
+]
+
+###
+
+
+POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news
+Content-Type: application/json
+
+[
+  "14"
+]
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news-from-the-clubs
+
+###
+
+
+POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-stories-news
+Content-Type: application/json
+
+[
+  "3"
+]
+
+###
+
+
+@videoId=47
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-video-viewer?videoId={{videoId}}
+
+###
+
+@newsId=94
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-news-viewer?newsId={{newsId}}
+
+###
+
+
+
+
+### matches
+@matchWeek=27
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches?matchWeek={{matchWeek}}
+
+###
+
+### tables
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/table/get-tables
+
+###
