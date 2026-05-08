@@ -87,7 +87,7 @@ Format: { ""title"": """", ""sql"": """", ""description"": """", ""tip"": """" }
                 string fullResponse = "";
                 await foreach (var res in _ollama.ChatAsync(request))
                 {
-                    fullResponse += res.Message.Content;
+                    fullResponse += res!.Message.Content;
                 }
 
                 string cleanJson = "";
