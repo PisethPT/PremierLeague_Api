@@ -18,5 +18,6 @@ namespace PremierLeague_Api.Repositories.Interfaces
         Task<Response<IEnumerable<HomeNewsTopicDto>>> GetHomeQuizzesNewOnlyAsync(int pageSize = 5, CancellationToken ct = default);
         Task<Response<VideoRelatedGroupDto>> GetHomeVideoViewerAsync(int videoId, CancellationToken ct = default);
         Task<Response<NewsRelatedGroupDto>> GetHomeNewsViewerAsync(int newsId, CancellationToken ct = default);
+        Task<Response<IEnumerable<HomeNewsTopicDto>>> GetHomePermierLeagueGameNewsAsync(int pageSize = 8, CancellationToken ct = default);
     }
 }

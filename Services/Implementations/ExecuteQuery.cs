@@ -28,6 +28,21 @@ namespace PremierLeague_Api.Services.Implementations
             }
         }
 
+        public async Task<SqlDataReader> ExecuteReadersAsync(SqlCommand cmd, CancellationToken ct = default)
+        {
+            var conn = await AppDbContext.Instance.GetOpenConnectionAsync(ct).ConfigureAwait(false);
+            cmd.Connection = conn;
+            cmd.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                return await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection, ct).ConfigureAwait(false);
+            }
+            catch (SqlException ex) when (ex.Number == 500000)
+            {
+                conn.Dispose();
+                return null!;
+            }
+        }
 
         public async Task<T?> ExecuteScalarAsync<T>(SqlCommand cmd, CancellationToken ct = default)
         {
@@ -72,6 +87,28 @@ namespace PremierLeague_Api.Services.Implementations
             finally
             {
                 conn.Close();
+            }
+        }
+
+        public async Task<SqlDataReader> ExecuteQueryAsync(SqlCommand cmd, CancellationToken ct = default)
+        {
+            var conn = await AppDbContext.Instance.GetOpenConnectionAsync(ct).ConfigureAwait(false);
+            cmd.Connection = conn;
+
+            try
+            {
+                var rdr = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection, ct).ConfigureAwait(false);
+
+                if (await rdr.ReadAsync(ct).ConfigureAwait(false))
+                    return rdr;
+
+                rdr.Close();
+                return null!;
+            }
+            catch (SqlException ex) when (ex.Number == 500000)
+            {
+                conn.Dispose();
+                return default!;
             }
         }
     }

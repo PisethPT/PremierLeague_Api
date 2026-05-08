@@ -21,14 +21,16 @@ namespace PremierLeague_Api.Services.Implementations
             return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
         }
 
-        public string GenerateToken(SiginGoogleDto signInGoogleDto)
+        public string GenerateToken(SiginGoogleDto user)
         {
             var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, signInGoogleDto.GoogleId!),
-            new Claim(ClaimTypes.Email, signInGoogleDto.Email),
-            new Claim(ClaimTypes.Name, signInGoogleDto.FirstName)
-        };
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId ?? user.GoogleId!),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim("Photo", user.PhotoUrl ?? "") 
+            };
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)

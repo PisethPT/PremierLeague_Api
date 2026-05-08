@@ -3,6 +3,6 @@
     public class GroupedHomeMatchesDto
     {
         public string MatchDate { get; set; }
-        public IEnumerable<HomeMatchesDto> Matches { get; set; }
+        public IEnumerable<MatchesDto> Matches { get; set; }
     }
 }

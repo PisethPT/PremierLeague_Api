@@ -150,5 +150,14 @@ namespace PremierLeague_Api.Controllers
                 return StatusCode(response?.StatusCode ?? 500, response);
             return Ok(response);
         }
+
+        [HttpGet("get-home-news-premierleaguegame")]
+        public async Task<IActionResult> GetPremierLeagueGameNews()
+        {
+            var response = await repository.GetHomePermierLeagueGameNewsAsync();
+            if (response is null || !response.IsSuccess)
+                return StatusCode(response?.StatusCode ?? 500, response);
+            return Ok(response);
+        }
     }
 }

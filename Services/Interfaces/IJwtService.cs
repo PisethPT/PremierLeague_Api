@@ -4,7 +4,7 @@ namespace PremierLeague_Api.Services.Interfaces
 {
     public interface IJwtService
     {
-        string GenerateToken(SiginGoogleDto signInGoogleDto);
+        string GenerateToken(SiginGoogleDto user);
         string GenerateRefreshToken();
     }
 }

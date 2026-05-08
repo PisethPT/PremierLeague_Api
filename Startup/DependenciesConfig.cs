@@ -64,6 +64,16 @@ namespace PremierLeague_Api.Startup
             builder.Services.AddScoped<IHomeRepository, HomeRepository>();
             builder.Services.AddScoped<IMatchRepository, MatchRepository>();
             builder.Services.AddScoped<ITableRepository, TableRepository>();
+            builder.Services.AddScoped<IClubRepository, ClubRepository>();
+            builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+            builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+            builder.Services.AddScoped<INewsRepository, NewsRepository>();
+
+            builder.Services.AddScoped<IAiQueryService, AiQueryService>();
+            builder.Services.AddScoped<IAiRepository, AiRepository>();
+
+
+            builder.Services.AddScoped<ISelectListItemRepository, SelectListItemRepository>();
 
             builder.Services.AddOpenApi();
         }

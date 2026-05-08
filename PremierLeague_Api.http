@@ -37,6 +37,11 @@ GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-matches
 ###
 
 GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news
+Content-Type: application/json
+
+[
+  "7"
+]
 
 ###
 
@@ -54,7 +59,7 @@ POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news
 Content-Type: application/json
 
 [
-  "14"
+  "10"
 ]
 
 ###
@@ -64,7 +69,7 @@ GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news-from-
 ###
 
 
-POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-stories-news
+POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-stories-news?pageSize=20
 Content-Type: application/json
 
 [
@@ -93,8 +98,229 @@ GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches?matchW
 
 ###
 
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches-story?matchId={{matchId}}
+
+###
+
+
+@matchId=1
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches-recap?matchId={{matchId}}
+
+###
+
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches-info-detail?matchId={{matchId}}
+
+###
+
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches-highlight?matchId={{matchId}}
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches-relatedcontent?matchId={{matchId}}
+
+###
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches-matchinfo?matchId={{matchId}}
+
+###
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/match/get-matches-lineup?matchId=45
+
+###
+
+
+
+
+
+
+
+
 ### tables
 
 GET {{PremierLeague_Api_HostAddress}}/api/premierleague/table/get-tables
+
+###
+
+
+
+
+### clubs
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-season-clubs
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-detail?clubId=8
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-alltime-premierleague-clubs
+
+###
+
+@clubId=1
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-overviews-nextmatch-teamform?clubId={{clubId}}
+
+###
+
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-overviews-laststarting11?clubId=7 
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-newsandservices?clubId=1
+
+###
+
+@seasonId=4
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-table?seasonId={{seasonId}}&clubId=6
+
+###
+
+@month=4
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-matches?clubId=1&month={{month}}
+
+###
+
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-squad?clubId=1
+
+###
+
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-monthofmatch?seasonId=4&clubId=1
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-news?seasonId={{seasonId}}&clubId=1
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/club/get-club-videos?seasonId={{seasonId}}&clubId=1
+
+###
+
+
+
+
+### players
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/player/get-players
+
+###
+
+
+### select list items
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/selectlistitem/get-selectlistitem-clubs
+
+###
+
+
+@playerId=89
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/player/get-player-information?playerId={{playerId}}
+
+###
+
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/player/get-player-teammates?playerId={{playerId}}
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/player/get-player-club?playerId={{playerId}}
+
+###
+
+
+
+### videos
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/video/get-video-latestvideos
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/video/get-video-series
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/video/get-video-thearchive
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/video/get-video-all
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/video/get-video-all-count
+
+###
+
+@pageSize=100
+POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news-multi-topics?pageSize={{pageSize}}
+Content-Type: application/json
+
+[
+  "3"
+]
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news-premierleaguegame
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-quizzes-news?pageSize={{pageSize}}
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/home/get-home-news-premierleaguegame
+
+###
+
+GET {{PremierLeague_Api_HostAddress}}/api/premierleague/news/get-news-all?newsCategoryId=22&pageNumber=2&pageSize=5
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/premierleague/ai/ask
+Content-Type: application/json
+
+"Show me the top 5 oldest football clubs"
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/auth/get-fav-players
+Content-Type: application/json
+
+{
+  "playerName": "Col"
+}
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/auth/get-fav-clubs
+Content-Type: application/json
+
+"pisitpt120@gmail.com"
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/auth/fav-saveselectedclubs
+Content-Type: application/json
+
+{
+  //FavRequest
+}
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/auth/fav-checkuserfavorite
+Content-Type: application/json
+
+"pisitpt120@gmail.com"
+
+###
+
+POST {{PremierLeague_Api_HostAddress}}/api/auth/get-fav-myPLSettings
+Content-Type: application/json
+
+"pisitpt120@gmail.com"
 
 ###

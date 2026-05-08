@@ -57,13 +57,13 @@ namespace PremierLeague_Api.Repositories.Implementations
             {
                 var cmd = new SqlCommand { CommandText = "PL_ApiGetHomeMatches" };
                 var rdr = await execute.ExecuteReaderAsync(cmd);
-                var matches = new List<HomeMatchesDto>();
+                var matches = new List<MatchesDto>();
 
                 if (rdr != null)
                 {
                     while (await rdr.ReadAsync(ct).ConfigureAwait(false))
                     {
-                        matches.Add(new HomeMatchesDto()
+                        matches.Add(new MatchesDto()
                         {
                             MatchId = rdr.SafeGetInt("MatchId"),
                             MatchDate = rdr.SafeGetString("MatchDate"),
@@ -356,6 +356,46 @@ namespace PremierLeague_Api.Repositories.Implementations
             {
                 return new Response<NewsRelatedGroupDto>(500, $"Internal Server Error {ex.Message}", null!, false);
             }
+        }
+
+        public async Task<Response<IEnumerable<HomeNewsTopicDto>>> GetHomePermierLeagueGameNewsAsync(int pageSize = 8, CancellationToken ct = default)
+        {
+            try
+            {
+                var cmd = new SqlCommand();
+                cmd.CommandText = "PL_ApiGetPremierLeagueGameNews";
+                cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                var rdr = await execute.ExecuteReaderAsync(cmd);
+                var news = new List<HomeNewsTopicDto>();
+
+                if (rdr != null)
+                {
+                    do
+                    {
+                        news.Add(new HomeNewsTopicDto()
+                        {
+                            TopicId = rdr.SafeGetInt("TopicId"),
+                            Title = rdr.SafeGetString("Title"),
+                            Thumbnail = rdr.SafeGetString("Thumbnail"),
+                            TopicTag = rdr.SafeGetString("TopicTag"),
+                            VideoUrl = rdr.SafeGetString("VideoUrl"),
+                            IsVideo = rdr.SafeGetBoolean("IsVideo"),
+                        });
+                    } while (await rdr.ReadAsync(ct).ConfigureAwait(false));
+                }
+
+
+                return new Response<IEnumerable<HomeNewsTopicDto>>(200, "Success", news, true);
+            }
+            catch (SqlException ex)
+            {
+                return new Response<IEnumerable<HomeNewsTopicDto>>(400, "Database Error: " + ex.Message, null!, false);
+            }
+            catch (Exception ex)
+            {
+                return new Response<IEnumerable<HomeNewsTopicDto>>(500, $"Internal Server Error {ex.Message}", null!, false);
+            }
+            ;
         }
 
         public async Task<Response<IEnumerable<HomeNewsTopicDto>>> GetHomePremierLeagueNewOnlyAsync(int pageSize = 5, CancellationToken ct = default)

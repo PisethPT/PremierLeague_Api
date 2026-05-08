@@ -14,6 +14,7 @@ namespace PremierLeague_Api.Controllers
         {
             this.repository = repository;
         }
+
         [HttpGet("get-tables")]
         public async Task<IActionResult> GetTables()
         {

@@ -1,6 +1,6 @@
 ﻿namespace PremierLeague_Api.Dtos
 {
-    public class HomeMatchesDto
+    public class MatchesDto
     {
         public int MatchId { get; set; }
         public string MatchDate { get; set; }
@@ -13,6 +13,7 @@
         public string AwayClubTheme { get; set; }
         public string HomeClubGoal { get; set; }
         public string AwayClubGoal { get; set; }
+        public string Competition { get; set; }
         public string KickoffStatus { get; set; }
         public string IsGameFinished { get; set; }
     }
