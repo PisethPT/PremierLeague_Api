@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using OllamaSharp;
 using PremierLeague_Api.Repositories.Implementations;
 using PremierLeague_Api.Repositories.Interfaces;
 using PremierLeague_Api.Services.Implementations;
@@ -56,6 +57,22 @@ namespace PremierLeague_Api.Startup
                     options.InstanceName = "PremierLeagueApi:";
                 });
             }
+
+            builder.Services.AddScoped<IOllamaApiClient>(sp =>
+            {
+                // Use a custom HttpClient to control the timeout
+                var httpClient = new HttpClient
+                {
+                    BaseAddress = new Uri("http://localhost:11434"),
+                    Timeout = TimeSpan.FromSeconds(100) // Increased from default 20s
+                };
+
+                var client = new OllamaApiClient(httpClient);
+                client.SelectedModel = "qwen2.5-coder:3b";
+                return client;
+            });
+
+            builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
             // Repositories
             builder.Services.AddScoped<IExecuteQuery, ExecuteQuery>();

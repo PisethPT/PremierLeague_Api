@@ -9,7 +9,8 @@ services:
     ports:
       - "7024:8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
+      ASPNETCORE_ENVIRONMENT: Docker
+      ConnectionStrings__DefaultConnection: "Server=host.docker.internal,1433;Database=EPL_DB;User Id=sa;Password=Pisethpt@100622;TrustServerCertificate=True;"
     depends_on:
       - redis
 
@@ -18,4 +19,3 @@ services:
     image: redis:7
     ports:
       - "6379:6379"
-

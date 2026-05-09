@@ -22,8 +22,8 @@ namespace PremierLeague_Api.Data
             {
                 if (_instance != null) return;
 
-                var conn = configuration.GetConnectionString("DatabaseConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
+                var conn = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                Console.WriteLine($"DOCKER CONNECTION: {conn}");
                 _instance = new AppDbContext(conn);
             }
         }

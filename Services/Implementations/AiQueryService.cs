@@ -12,7 +12,8 @@ namespace PremierLeague_Api.Services.Implementations
         private readonly IOllamaApiClient _ollama;
         public AiQueryService()
         {
-            _ollama = new OllamaApiClient("http://localhost:11434");
+            //_ollama = new OllamaApiClient("http://localhost:11434");
+            _ollama = new OllamaApiClient("http://host.docker.internal:11434");
             _ollama.SelectedModel = "qwen2.5-coder:3b";
         }
 
@@ -68,6 +69,21 @@ namespace PremierLeague_Api.Services.Implementations
 3. For names/titles, use 'LIKE' with '%' (e.g., WHERE Name LIKE '%Arsenal%').
 4. If asked for 'Scorers', join 'Players' and 'Goals'.
 5. If asked for 'Top Stats', use 'ORDER BY Value DESC'.
+
+### DATE & SEARCH RULES:
+1. 'Today' is "" + DateTime.Now.ToString(""yyyy-MM-dd"") + @"".
+2. 'Next Match' means: WHERE MatchDate >= '"" + DateTime.Now.ToString(""yyyy-MM-dd"") + @""' ORDER BY MatchDate ASC.
+3. 'Previous Match' means: WHERE MatchDate < '"" + DateTime.Now.ToString(""yyyy-MM-dd"") + @""' ORDER BY MatchDate DESC.
+4. Always JOIN Teams to Matches twice: once for HomeTeamId and once for AwayTeamId.
+5. If the user says 'Manchester United', search for Name LIKE '%Man Utd%' OR Name LIKE '%Manchester United%'.
+
+### CONVERSATIONAL MAPPING:
+1. If the user asks 'What have I missed?', interpret this as 'Show the latest 5 match results'.
+   - SQL: SELECT TOP 5 * FROM Matches WHERE IsGameFinish = 1 ORDER BY MatchDate DESC, MatchTime DESC.
+2. If the user asks 'Surprise me!', choose a random interesting stat or a high-scoring match.
+   - SQL: SELECT TOP 1 * FROM Matches ORDER BY NEWID().
+3. If the user asks 'How can I follow?', do not return SQL. Use the 'description' to explain the app features (News, Videos, Favorite Clubs).
+
 
 ### OUTPUT REQUIREMENT:
 Return ONLY valid JSON. No prose. No markdown.

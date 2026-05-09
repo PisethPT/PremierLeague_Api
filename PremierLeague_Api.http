@@ -1,9 +1,9 @@
 @PremierLeague_Api_HostAddress = https://localhost:44363
 @PremierLeague_Api_Htpps = https://localhost:7024
 @PermierLeague_Api_Docker_Redis = http://localhost:6379
-@PermierLeague_Api_Docker = http://localhost:32776
+@PermierLeague_Api_Docker = http://localhost:7024
 
-GET {{PremierLeague_Api_HostAddress}}/weatherforecast/
+GET {{PermierLeague_Api_Docker_Redis}}/weatherforecast/
 Accept: application/json
 
 ###
@@ -282,7 +282,11 @@ GET {{PremierLeague_Api_HostAddress}}/api/premierleague/news/get-news-all?newsCa
 POST {{PremierLeague_Api_HostAddress}}/api/premierleague/ai/ask
 Content-Type: application/json
 
-"Show me the top 5 oldest football clubs"
+"Surprise me!"
+
+###"What have I missed?"
+###"How can I follow the Premier League?"
+###"Show me the top 5 oldest football clubs"
 
 ###
 

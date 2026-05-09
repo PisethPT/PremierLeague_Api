@@ -26,13 +26,32 @@ namespace PremierLeague_Api.Controllers
         public async Task<IActionResult> AskAIAgent([FromBody] string userQuestion)
         {
             var content = await aiQuery.GenerateSqlAsync(userQuestion);
+
             if (string.IsNullOrEmpty(content.Sql))
-                return BadRequest("");
+            {
+                return Ok(new AiAssistantDto
+                {
+                    Data = null!,
+                    Chat = content
+                });
+            }
 
             var response = await aiRepository.AiQuery(content.Sql);
-  
-            if (response is null || !response.IsSuccess)
-                return StatusCode(response?.StatusCode ?? 500, response);
+
+            if (response == null || !response.IsSuccess)
+            {
+                return Ok(new AiAssistantDto
+                {
+                    Data = null!,
+                    Chat = new AiResponseDto
+                    {
+                        Title = "Database Sync Issue",
+                        Description = "I generated a query, but the database couldn't process it. " + response?.Message,
+                        Tip = "Try rephrasing your question with specific names like 'Liverpool' or 'Arsenal'.",
+                        Sql = content.Sql
+                    }
+                });
+            }
 
             var results = new AiAssistantDto
             {
@@ -42,8 +61,8 @@ namespace PremierLeague_Api.Controllers
                     Title = content.Title,
                     Description = content.Description,
                     Tip = content.Tip,
-                    Sql = content.Sql,
-                },
+                    Sql = content.Sql
+                }
             };
 
             return Ok(results);
