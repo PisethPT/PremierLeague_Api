@@ -139,7 +139,7 @@ namespace PremierLeague_Api.Controllers
         {
             string cacheKey = $"club:matches:{clubId}:{month}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetClubMatchesAsync(clubId, month), 2);
+            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetClubMatchesAsync(clubId: clubId, month: month), 2);
 
             if (response is null || !response.IsSuccess)
                 return StatusCode(response?.StatusCode ?? 500, response);
@@ -152,7 +152,7 @@ namespace PremierLeague_Api.Controllers
         {
             string cacheKey = $"club:squad:{clubId}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetClubSquadAsync(clubId), 60);
+            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetClubSquadAsync(clubId: clubId), 60);
 
             if (response is null || !response.IsSuccess)
                 return StatusCode(response?.StatusCode ?? 500, response);

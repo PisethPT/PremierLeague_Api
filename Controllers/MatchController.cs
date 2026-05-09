@@ -22,7 +22,7 @@ namespace PremierLeague_Api.Controllers
         {
             string cacheKey = $"match:list:week:{matchWeek}";
 
-            var response = await cacheService.GetOrSetAsync( cacheKey, async () => await repository.GetMatchesAsync(matchWeek, ct), 2);
+            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetMatchesAsync(matchWeek, ct), 2);
 
             return HandleResponse(response);
         }
@@ -72,7 +72,7 @@ namespace PremierLeague_Api.Controllers
         [HttpGet("get-matches-highlight")]
         public async Task<IActionResult> GetMatchHighlight([FromQuery] int matchId)
         {
-            string cacheKey =  $"match:highlight:{matchId}";
+            string cacheKey = $"match:highlight:{matchId}";
 
             var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetMatchHighlightAsync(matchId), 10);
 

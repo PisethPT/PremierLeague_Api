@@ -24,7 +24,7 @@ namespace PremierLeague_Api.Controllers
         {
             const string cacheKey = "selectlist:clubs";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, 
+            var response = await cacheService.GetOrSetAsync(cacheKey,
                     async () => await repository.SelectListItemAsync<SelectListItemClubDto>(
                             "PL_ApiSelectListItemClub",
                             rdr => new SelectListItemClubDto

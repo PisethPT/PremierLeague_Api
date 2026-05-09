@@ -22,7 +22,10 @@ namespace PremierLeague_Api.Controllers
         {
             const string cacheKey = "home:clubnews";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeClubNewsAsync(), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () => await repository.GetHomeClubNewsAsync(),
+                5);
 
             return HandleResponse(response);
         }
@@ -32,77 +35,99 @@ namespace PremierLeague_Api.Controllers
         {
             const string cacheKey = "home:matches";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeMatchesAsync(), 1);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () => await repository.GetHomeMatchesAsync(),
+                1);
 
             return HandleResponse(response);
         }
 
         [HttpGet("get-home-news")]
-        public async Task<IActionResult> GetNews()
+        public async Task<IActionResult> GetHomeNews()
         {
             const string cacheKey = "home:news";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeNewsAsync(), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () => await repository.GetHomeNewsAsync(),
+                5);
 
             return HandleResponse(response);
         }
 
         [HttpPost("get-home-stories-news")]
-        public async Task<IActionResult> GetStoriesNews([FromBody] List<string> videosTag, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetStoriesNews(
+            [FromBody] List<string> videosTag,
+            [FromQuery] int pageSize = 10)
         {
-            if (videosTag == null || !videosTag.Any())
+            if (!IsValidList(videosTag))
             {
                 return BadRequest("Tag list cannot be empty.");
             }
 
-            videosTag = videosTag
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
+            videosTag = NormalizeList(videosTag);
 
-            string cacheKey = $"home:stories:{string.Join("-", videosTag)}:{pageSize}";
+            string cacheKey =
+                $"home:stories:{string.Join("-", videosTag)}:{pageSize}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeStoriesNewsAsync(videosTag, pageSize), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeStoriesNewsAsync(
+                        videosTag,
+                        pageSize),
+                5);
 
             return HandleResponse(response);
         }
 
         [HttpPost("get-home-videos")]
-        public async Task<IActionResult> GetVideos([FromBody] List<string> videoCategories)
+        public async Task<IActionResult> GetVideos(
+            [FromBody] List<string> videoCategories)
         {
-            if (videoCategories == null || !videoCategories.Any())
+            if (!IsValidList(videoCategories))
             {
                 return BadRequest("Category list cannot be empty.");
             }
 
-            videoCategories = videoCategories
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
+            videoCategories = NormalizeList(videoCategories);
 
-            string cacheKey = $"home:videos:{string.Join("-", videoCategories)}";
+            string cacheKey =
+                $"home:videos:{string.Join("-", videoCategories)}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeVideosAsync(videoCategories), 10);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeVideosAsync(
+                        videoCategories),
+                10);
 
             return HandleResponse(response);
         }
 
         [HttpPost("get-home-news")]
-        public async Task<IActionResult> GetNews([FromBody] List<string> newsTags, [FromQuery] int pageSize = 5)
+        public async Task<IActionResult> GetNewsByTags(
+            [FromBody] List<string> newsTags,
+            [FromQuery] int pageSize = 5)
         {
-            if (newsTags == null || !newsTags.Any())
+            if (!IsValidList(newsTags))
             {
                 return BadRequest("Category list cannot be empty.");
             }
 
-            newsTags = newsTags
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
+            newsTags = NormalizeList(newsTags);
 
-            string cacheKey = $"home:news:{string.Join("-", newsTags)}:{pageSize}";
+            string cacheKey =
+                $"home:news:tags:{string.Join("-", newsTags)}:{pageSize}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeNewsAsync(newsTags, pageSize), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeNewsAsync(
+                        newsTags,
+                        pageSize),
+                5);
 
             return HandleResponse(response);
         }
@@ -112,68 +137,96 @@ namespace PremierLeague_Api.Controllers
         {
             const string cacheKey = "home:clubsnews";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeNewsFromTheClubsAsync(), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeNewsFromTheClubsAsync(),
+                5);
 
             return HandleResponse(response);
         }
 
         [HttpPost("get-home-news-multi-topics")]
-        public async Task<IActionResult> GetNewsMulitTopic([FromBody] List<string> newsTags, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetNewsMulitTopic(
+            [FromBody] List<string> newsTags,
+            [FromQuery] int pageSize)
         {
-            if (newsTags == null || !newsTags.Any())
+            if (!IsValidList(newsTags))
             {
                 return BadRequest("Category list cannot be empty.");
             }
 
-            newsTags = newsTags
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
+            newsTags = NormalizeList(newsTags);
 
-            string cacheKey = $"home:newsmulti:{string.Join("-", newsTags)}:{pageSize}";
+            string cacheKey =
+                $"home:newsmulti:{string.Join("-", newsTags)}:{pageSize}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeNewsMulitTopicAsync(newsTags, pageSize), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeNewsMulitTopicAsync(
+                        newsTags,
+                        pageSize),
+                5);
 
             return HandleResponse(response);
         }
 
         [HttpPost("get-home-news-as-topics")]
-        public async Task<IActionResult> GetNewsAsTopic([FromBody] List<string> newsTags, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetNewsAsTopic(
+            [FromBody] List<string> newsTags,
+            [FromQuery] int pageSize)
         {
-            if (newsTags == null || !newsTags.Any())
+            if (!IsValidList(newsTags))
             {
                 return BadRequest("Category list cannot be empty.");
             }
 
-            newsTags = newsTags
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
+            newsTags = NormalizeList(newsTags);
 
-            string cacheKey = $"home:newstopics:{string.Join("-", newsTags)}:{pageSize}";
+            string cacheKey =
+                $"home:newstopics:{string.Join("-", newsTags)}:{pageSize}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeNewsAsTopicAsync(newsTags, pageSize), 5);
-
-            return HandleResponse(response);
-        }
-
-        [HttpPost("get-home-premierleague-news")]
-        public async Task<IActionResult> GetPremierLeagueNewsOnly(
-            [FromQuery] int pageSize)
-        {
-            string cacheKey = $"home:premierleague:{pageSize}";
-
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomePremierLeagueNewOnlyAsync(pageSize), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeNewsAsTopicAsync(
+                        newsTags,
+                        pageSize),
+                5);
 
             return HandleResponse(response);
         }
 
-        [HttpPost("get-home-quizzes-news")]
-        public async Task<IActionResult> GetQuizzesNewsOnly([FromQuery] int pageSize)
+        [HttpGet("get-home-premierleague-news")]
+        public async Task<IActionResult> GetPremierLeagueNewsOnly([FromQuery] int pageSize = 5)
         {
-            string cacheKey = $"home:quizzes:{pageSize}";
+            string cacheKey =
+                $"home:premierleague:{pageSize}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeQuizzesNewOnlyAsync(pageSize), 10);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomePremierLeagueNewOnlyAsync(
+                        pageSize),
+                5);
+
+            return HandleResponse(response);
+        }
+
+        [HttpGet("get-home-quizzes-news")]
+        public async Task<IActionResult> GetQuizzesNewsOnly(
+            [FromQuery] int pageSize = 5)
+        {
+            string cacheKey =
+                $"home:quizzes:{pageSize}";
+
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeQuizzesNewOnlyAsync(
+                        pageSize),
+                10);
 
             return HandleResponse(response);
         }
@@ -182,19 +235,32 @@ namespace PremierLeague_Api.Controllers
         public async Task<IActionResult> GetVideoViewer(
             [FromQuery] int videoId)
         {
-            string cacheKey = $"video:viewer:{videoId}";
+            string cacheKey =
+                $"video:viewer:{videoId}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeVideoViewerAsync(videoId), 60);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeVideoViewerAsync(
+                        videoId),
+                60);
 
             return HandleResponse(response);
         }
 
         [HttpGet("get-news-viewer")]
-        public async Task<IActionResult> GetNewsViewer([FromQuery] int newsId)
+        public async Task<IActionResult> GetNewsViewer(
+            [FromQuery] int newsId)
         {
-            string cacheKey = $"news:viewer:{newsId}";
+            string cacheKey =
+                $"news:viewer:{newsId}";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomeNewsViewerAsync(newsId), 60);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomeNewsViewerAsync(
+                        newsId),
+                60);
 
             return HandleResponse(response);
         }
@@ -202,9 +268,14 @@ namespace PremierLeague_Api.Controllers
         [HttpGet("get-home-news-premierleaguegame")]
         public async Task<IActionResult> GetPremierLeagueGameNews()
         {
-            const string cacheKey = "home:premierleaguegame";
+            const string cacheKey =
+                "home:premierleaguegame";
 
-            var response = await cacheService.GetOrSetAsync(cacheKey, async () => await repository.GetHomePermierLeagueGameNewsAsync(), 5);
+            var response = await cacheService.GetOrSetAsync(
+                cacheKey,
+                async () =>
+                    await repository.GetHomePermierLeagueGameNewsAsync(),
+                5);
 
             return HandleResponse(response);
         }
@@ -215,10 +286,27 @@ namespace PremierLeague_Api.Controllers
         {
             if (response is null || !response.IsSuccess)
             {
-                return StatusCode(response?.StatusCode ?? 500, response);
+                return StatusCode(
+                    response?.StatusCode ?? 500,
+                    response);
             }
 
             return Ok(response);
+        }
+
+        private static bool IsValidList(List<string>? list)
+        {
+            return list != null && list.Any();
+        }
+
+        private static List<string> NormalizeList(List<string> list)
+        {
+            return list
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Select(x => x.Trim().ToLower())
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList();
         }
 
         #endregion
